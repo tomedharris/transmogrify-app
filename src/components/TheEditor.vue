@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Codemirror } from 'vue-codemirror'
-import { defineProps } from 'vue'
+import {defineProps} from 'vue'
 import {useCodeStore} from "@/stores/code";
 import {storeToRefs} from "pinia";
 
@@ -14,19 +13,8 @@ withDefaults(defineProps<Props>(), {
 
 const codeStore = useCodeStore();
 const {code} = storeToRefs(codeStore)
-
-const options = {
-  lineWrapping: true,
-  lineNumbers: false,
-};
-
 </script>
 
 <template>
-  <Codemirror
-    :style="{ height: '100px', 'word-wrap': 'break-word' }"
-    :placeholder="placeholder"
-    v-model:model-value="code"
-    :options="options"
-  />
+  <textarea id="editor" :placeholder="placeholder" v-model="code"></textarea>
 </template>
