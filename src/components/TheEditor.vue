@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { highlight, languages } from 'prismjs/components/prism-core';
-import {defineProps} from 'vue'
+import { highlight, languages } from 'prismjs';
 import {useCodeStore} from "@/stores/code";
 import {storeToRefs} from "pinia";
 
@@ -20,7 +19,7 @@ function detectedLanguage(): string {
 }
 
 function highlighter(code: string): string {
-  return highlight(code, languages[detectedLanguage()])
+  return highlight(code, languages[detectedLanguage()], '')
 }
 
 </script>

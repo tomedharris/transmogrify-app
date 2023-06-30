@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Command} from '@/commands';
+import type {Command} from '@/commands';
 
 interface Props {
   commands: Command[],
