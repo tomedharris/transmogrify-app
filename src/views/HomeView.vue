@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import TheTransmogrifier from '../components/TheTransmogrifier.vue'
+import CommandPalette from '../components/CommandPalette.vue'
+import { inject } from 'vue'
+
+const showPalette = inject('showPalette')
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <CommandPalette v-show="showPalette" />
+    <TheTransmogrifier />
   </main>
 </template>
