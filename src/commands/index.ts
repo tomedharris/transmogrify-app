@@ -1,5 +1,7 @@
 import Base64Decode from "./base64-decode";
 import Base64Encode from "./base64-encode";
+import UriDecode from "./uri-decode";
+import UriEncode from "./uri-encode";
 
 export interface Command {
     name: string,
@@ -8,6 +10,8 @@ export interface Command {
 }
 
 export const commands: Command[] = [
-    Base64Encode,
     Base64Decode,
+    Base64Encode,
+    UriDecode,
+    UriEncode,
 ]
