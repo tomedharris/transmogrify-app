@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { highlight, languages } from 'prismjs/components/prism-core';
 import {defineProps} from 'vue'
 import {useCodeStore} from "@/stores/code";
 import {storeToRefs} from "pinia";
@@ -13,8 +14,17 @@ withDefaults(defineProps<Props>(), {
 
 const codeStore = useCodeStore();
 const {code} = storeToRefs(codeStore)
+
+function detectedLanguage(): string {
+  return 'js';
+}
+
+function highlighter(code: string): string {
+  return highlight(code, languages[detectedLanguage()])
+}
+
 </script>
 
 <template>
-  <textarea id="editor" :placeholder="placeholder" v-model="code"></textarea>
+  <PrismEditor class="my-editor" v-model="code" :highlight="highlighter" :line-numbers="true"/>
 </template>

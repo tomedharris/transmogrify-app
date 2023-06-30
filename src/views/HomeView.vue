@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import TheTransmogrifier from '../components/TheTransmogrifier.vue'
 import CommandPalette from '../components/CommandPalette.vue'
 import {Command, commands} from '@/commands';
 import {inject} from 'vue'
