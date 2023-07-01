@@ -8,7 +8,8 @@ import router from './router'
 
 import { PrismEditor } from 'vue-prism-editor';
 import 'vue-prism-editor/dist/prismeditor.min.css';
-import 'prismjs/themes/prism.min.css';
+// import 'prismjs/themes/prism-dark.min.css';
+import 'prismjs/themes/prism-tomorrow.min.css';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript.js';
 

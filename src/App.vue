@@ -1,20 +1,25 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+
+const nav = {
+  'Home': '/',
+  'About': '/about',
+}
 </script>
 
 <template>
-  <header>
-    <!--    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />-->
+  <header class="py-4">
 
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+    <div class="flex items-center">
+      <a href="/" class="text-xl font-bold">Transmogrify</a>
+
+      <nav class="ml-auto">
+        <RouterLink v-for="(to, text) in nav" :key="text" :to="to" class="pl-4">{{text}}</RouterLink>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <RouterView class="" />
 </template>
 
 <style scoped></style>
