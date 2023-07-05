@@ -8,18 +8,15 @@ const nav = {
 </script>
 
 <template>
-  <header class="py-4">
-
-    <div class="flex items-center">
-      <a href="/" class="text-xl font-bold">Transmogrify</a>
-
-      <nav class="ml-auto">
-        <RouterLink v-for="(to, text) in nav" :key="text" :to="to" class="pl-4">{{text}}</RouterLink>
-      </nav>
-    </div>
+  <header class="flex items-center py-2">
+    <a href="/" class="text-xl font-bold">Tmog</a>
+    <nav class="ml-auto">
+      <RouterLink v-for="(to, text) in nav" :key="text" :to="to" class="pl-4">{{text}}</RouterLink>
+    </nav>
   </header>
-
-  <RouterView class="" />
+  <main class="w-full">
+    <RouterView class="" />
+  </main>
 </template>
 
 <style scoped></style>

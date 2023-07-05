@@ -29,4 +29,5 @@ window.addEventListener('keydown', (e) => {
 })
 app.provide('showPalette', showPalette)
 
+
 app.mount('#app')

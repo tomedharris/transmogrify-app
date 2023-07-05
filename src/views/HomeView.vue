@@ -15,11 +15,10 @@ function onCommandSelected(c: Command) {
   showPalette.value = false;
 }
 
+const favourites = [];
 </script>
 
 <template>
-  <main>
-    <CommandPalette v-show="showPalette" :commands="commands" @commandSelected="onCommandSelected"/>
+    <CommandPalette :commands="commands" @commandSelected="onCommandSelected" />
     <TheEditor />
-  </main>
 </template>
