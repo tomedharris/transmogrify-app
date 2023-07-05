@@ -31,7 +31,7 @@ function onClickOutside() {
   showCommands.value = false;
 }
 
-function onCommandSelected(e) {
+function onCommandSelected(e: Event) {
   emit('commandSelected', e)
   showCommands.value = false;
 }
