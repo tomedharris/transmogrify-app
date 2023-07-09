@@ -42,18 +42,18 @@ onMounted(() => {
         v.focus();
       }
     }
-
-    if (e.key == 'ArrowDown') {
-      if (showCommands.value) {
-        console.log('down')
-      }
-    }
-
-    if (e.key == 'ArrowUp') {
-      if (showCommands.value) {
-        console.log('up')
-      }
-    }
+    //
+    // if (e.key == 'ArrowDown') {
+    //   if (showCommands.value) {
+    //     console.log('down')
+    //   }
+    // }
+    //
+    // if (e.key == 'ArrowUp') {
+    //   if (showCommands.value) {
+    //     console.log('up')
+    //   }
+    // }
   })
 })
 
