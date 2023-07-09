@@ -9,7 +9,7 @@ const nav = {
 
 <template>
   <header class="flex items-center py-2">
-    <a href="/" class="text-xl font-bold">Tmog</a>
+    <RouterLink :to="nav.Home" class="text-xl font-bold">Tmog</RouterLink>
     <nav class="ml-auto">
       <RouterLink v-for="(to, text) in nav" :key="text" :to="to" class="pl-4">{{text}}</RouterLink>
     </nav>
