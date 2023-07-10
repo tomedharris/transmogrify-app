@@ -17,8 +17,8 @@ function onBlur() {
 </script>
 
 <template>
-  <div>
+  <div class="h-full">
     <CommandPalette :commands="commands" @commandSelected="onCommandSelected" @blur="onBlur"/>
-    <TheEditor/>
+    <TheEditor class="pt-4"/>
   </div>
 </template>

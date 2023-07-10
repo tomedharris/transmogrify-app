@@ -25,5 +25,7 @@ function highlighter(code: string): string {
 </script>
 
 <template>
-  <PrismEditor class="my-editor" v-model="code" :highlight="highlighter" :line-numbers="true"/>
+  <div class="h-full overflow-auto">
+    <PrismEditor class="my-editor" v-model="code" :highlight="highlighter" :line-numbers="true"/>
+  </div>
 </template>

@@ -14,7 +14,7 @@ const nav = {
       <RouterLink v-for="(to, text) in nav" :key="text" :to="to" class="pl-4">{{text}}</RouterLink>
     </nav>
   </header>
-  <main class="w-full">
+  <main class=" w-full pt-4">
     <RouterView class="" />
   </main>
 </template>
