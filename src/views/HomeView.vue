@@ -11,14 +11,14 @@ function onCommandSelected(c: Command) {
   codeStore.applyCommand(c)
 }
 
-function onBlur() {
+function onCommandPaletteBlur() {
   // TODO focus editor.
 }
 </script>
 
 <template>
   <div class="h-full">
-    <CommandPalette :commands="commands" @commandSelected="onCommandSelected" @blur="onBlur"/>
-    <TheEditor class="pt-4"/>
+    <CommandPalette :commands="commands" @commandSelected="onCommandSelected" @blur="onCommandPaletteBlur" :disabled="codeStore.code == ''"/>
+    <TheEditor class="mt-2" />
   </div>
 </template>

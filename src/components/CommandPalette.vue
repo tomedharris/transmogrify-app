@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import type {Command} from '@/commands';
 import {computed, onMounted, ref} from "vue";
-import CommandList from "./CommandList.vue";
 import {vOnClickOutside} from "@vueuse/components";
 
 interface Props {
   commands: Command[],
+  disabled?: boolean,
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  disabled: false,
+});
+
 const emit = defineEmits(['commandSelected', 'focus', 'blur'])
 
 const search = ref('');
 const showCommands = ref(false);
 const input = ref(null);
-const inputFocussed = ref(false)
+const inputFocussed = ref(false);
+const selectedCommandIndex = ref(0);
 
 const filteredCommands = computed(() => {
   return props.commands.filter((c: Command) => {
@@ -31,29 +35,37 @@ const filteredCommands = computed(() => {
 onMounted(() => {
   window.addEventListener('keydown', (e) => {
     if (e.key == 'k' && e.metaKey) {
-      if (input.value) {
-        const v = input.value as HTMLInputElement;
-        if (showCommands.value) {
-          v.blur();
-          blur();
-          return;
-        }
+      const v = input.value as unknown as HTMLInputElement;
+      if (showCommands.value) {
+        blur();
+        return;
+      }
 
-        v.focus();
+      v.focus();
+    }
+
+    if (showCommands.value) {
+      if (e.key == 'Tab') {
+        blur()
+      }
+
+      if (e.key == 'ArrowDown' && inputFocussed.value) {
+        if (selectedCommandIndex.value < filteredCommands.value.length - 1) {
+          selectedCommandIndex.value += 1;
+        }
+      }
+
+      if (e.key == 'ArrowUp' && inputFocussed.value) {
+        if (selectedCommandIndex.value > 0) {
+          selectedCommandIndex.value -= 1;
+        }
+      }
+
+      if ([...Array(10).keys()].map((n) => String(n)).indexOf(e.key) != -1 && e.metaKey) {
+        onCommandExecute(filteredCommands.value[e.key as unknown as number]);
+        e.preventDefault();
       }
     }
-    //
-    // if (e.key == 'ArrowDown') {
-    //   if (showCommands.value) {
-    //     console.log('down')
-    //   }
-    // }
-    //
-    // if (e.key == 'ArrowUp') {
-    //   if (showCommands.value) {
-    //     console.log('up')
-    //   }
-    // }
   })
 })
 
@@ -61,14 +73,10 @@ function onClickOutside() {
   blur();
 }
 
-function onCommandSelected(e: Event) {
+function onCommandExecute(c: Command) {
+  search.value = '';
   blur()
-  emit('commandSelected', e)
-}
-
-function blur() {
-  showCommands.value = false;
-  emit('blur');
+  emit('commandSelected', c)
 }
 
 function onFocus() {
@@ -76,24 +84,49 @@ function onFocus() {
   inputFocussed.value = true;
   emit('focus');
 }
+
+function blur() {
+  const v = input.value as unknown as HTMLInputElement;
+  v.blur();
+  selectedCommandIndex.value = 0;
+  showCommands.value = false;
+  emit('blur');
+}
+
+function selectedCommand(): Command {
+  return filteredCommands.value[selectedCommandIndex.value];
+}
 </script>
 
 <template>
-  <div v-on-click-outside="onClickOutside" class="w-1/2 mx-auto">
+  <div v-on-click-outside="onClickOutside" @keydown.enter="onCommandExecute(selectedCommand())" class="w-1/2 mx-auto">
     <input
         type="text"
         ref="input"
         v-model="search"
-        placeholder="Search Transformations"
-        class="border text-sm block w-full p-2.5 border-gray-600 placeholder-gray-400 text-white"
+        placeholder="[⌘K] Search"
+        class="border text-sm block w-full p-2.5 border-gray-600 placeholder-gray-400"
         @focus="onFocus"
+        :disabled="disabled"
     >
     <div class="relative">
       <div
           v-if="showCommands"
           class="absolute top-0 w-full border border-t-0 border-gray-600 bg-white text-gray-600 z-20"
       >
-        <CommandList :commands="filteredCommands" @commandSelected="onCommandSelected"/>
+        <ul class="command-list">
+          <li
+              class="p-2.5 flex flex-row justify-between"
+              :class="{'bg-amber-600': selectedCommandIndex == i}"
+              :key="c.name" v-for="(c, i) in filteredCommands"
+              @mouseover="selectedCommandIndex = i"
+              @click="onCommandExecute(c)"
+          >
+            <span v-text="c.name"/>
+            <span v-if="selectedCommandIndex == i">&#9166;</span>
+            <span v-else>⌘{{i}}</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
