@@ -101,7 +101,7 @@ function selectedCommand(): Command {
 </script>
 
 <template>
-  <div v-on-click-outside="onClickOutside" @keydown.enter="onCommandExecute(selectedCommand())" class="w-1/2 mx-auto">
+  <div v-on-click-outside="onClickOutside" @keydown.enter="onCommandExecute(selectedCommand()); $event.preventDefault()" class="w-1/2 mx-auto">
     <input
         type="text"
         ref="input"
