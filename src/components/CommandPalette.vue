@@ -70,7 +70,9 @@ onMounted(() => {
 })
 
 function onClickOutside() {
-  blur();
+  if (showCommands.value) {
+    blur();
+  }
 }
 
 function onCommandExecute(c: Command) {

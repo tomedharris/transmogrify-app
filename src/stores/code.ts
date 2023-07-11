@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type {Command} from "@/commands";
+import Hashes from "jshashes";
 
 export const useCodeStore = defineStore('code', () => {
   const code = ref('')
@@ -13,5 +14,9 @@ export const useCodeStore = defineStore('code', () => {
     }
   }
 
-  return { code, applyCommand }
+  function hash(): string {
+    return (new Hashes.MD5).hex(code.value);
+  }
+
+  return { code, applyCommand, hash }
 })
