@@ -1,6 +1,6 @@
 # TMOG - Universal Text Transformer
 
-Tmog aims to be a simple to use, secure text transformer for developers.
+[Tmog](https://tmog.app) aims to be a simple to use, secure text transformer for developers.
 
 ## Project Setup
 
