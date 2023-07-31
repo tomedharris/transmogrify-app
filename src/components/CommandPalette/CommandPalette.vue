@@ -104,6 +104,7 @@ function onEnterKey() {
   <div
       v-on-click-outside="onClickOutside"
       @keydown.enter.stop.prevent="onEnterKey"
+      class="text-sm md:text-base"
   >
     <SearchInput ref="searchInput" v-model="search" @focus="showCommands = true"/>
     <div class="relative">

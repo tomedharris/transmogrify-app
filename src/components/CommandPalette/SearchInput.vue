@@ -62,7 +62,7 @@ function formatPlaceholder(): string {
       :value="modelValue"
       class="
           border
-          text-sm block w-full p-2 text-center
+          block w-full p-2 text-center
           outline-none
           text-tmog-light-text
           dark:text-tmog-dark-text
