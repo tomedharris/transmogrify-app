@@ -1,6 +1,7 @@
 import type {Command} from "./index"
 
 export const sort = <Command>{
+    id: 'sort',
     name: 'Sort',
     description: 'Sort lines alphabetically',
     process: (str: string) => str.split('\n').sort().join('\n'),
@@ -8,6 +9,7 @@ export const sort = <Command>{
 }
 
 export const shuffle = <Command>{
+    id: 'shuffle',
     name: 'Shuffle',
     description: 'Randomize lines',
     process: (str: string) => {

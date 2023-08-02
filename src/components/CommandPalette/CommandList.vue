@@ -3,7 +3,7 @@ import {currentDevice} from "@/device"
 import type {Command} from '@/commands'
 import {onMounted, onUnmounted, ref, watch} from "vue"
 
-const props = defineProps<{ commands: Command[], show: boolean }>()
+const props = defineProps<{ commands: Command[] }>()
 const selectedCommandIndex = ref(0)
 
 const emit = defineEmits(['commandSelected'])
@@ -46,31 +46,36 @@ function selectCommand() {
 function onSelectCommand(c: Command) {
   emit('commandSelected', c)
 }
+
 </script>
 
 <template>
-  <div
-      v-if="show"
-      class="top-0 w-full bg-tmog-light-primary dark:bg-tmog-dark-primary z-20"
-  >
-    <ul class="command-list">
-      <li
-          v-for="(c, i) in commands"
-          :key="c.name"
-          :class="{'bg-tmog-light-secondary dark:bg-tmog-dark-secondary': selectedCommandIndex == i}"
-          class="p-2.5 flex flex-row justify-between items-center"
-          @click="onSelectCommand(c)"
-          @mouseover="selectedCommandIndex = i"
-      >
-        <span class="flex flex-col">
+  <ul class="command-list">
+    <li
+        v-for="(c, i) in commands"
+        :key="c.name"
+        :class="{'text-white bg-tmog-light-secondary dark:bg-tmog-dark-secondary': selectedCommandIndex == i}"
+        class="p-2.5 flex flex-row justify-between items-center"
+        @click="onSelectCommand(c)"
+        @mouseover="selectedCommandIndex = i"
+    >
+      <span class="flex flex-col">
+        <span class="flex gap-1">
           <span v-text="c.name"/>
-          <span class="text-xs text-white/60" v-text="c.description"></span>
         </span>
-        <span v-if="!currentDevice.isMobile()">
-          <span v-if="selectedCommandIndex == i">&#9166;</span>
-          <span v-else>{{ (currentDevice.isMac() ? '⌘' : 'C-') + (i + 1) }}</span>
-        </span>
-      </li>
-    </ul>
-  </div>
+        <span
+            class="text-xs"
+            :class="{
+             'text-white/60': selectedCommandIndex == i,
+             'text-tmog-light-text/60': selectedCommandIndex != i
+            }"
+            v-text="c.description"
+        />
+      </span>
+      <span v-if="!currentDevice.isMobile()">
+        <span v-if="selectedCommandIndex == i">&#9166;</span>
+        <span v-else>{{ (currentDevice.isMac() ? '⌘' : 'C-') + (i + 1) }}</span>
+      </span>
+    </li>
+  </ul>
 </template>

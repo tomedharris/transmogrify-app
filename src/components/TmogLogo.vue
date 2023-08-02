@@ -14,6 +14,6 @@ function srcAttr() {
 <template>
   <div class="flex justify-start items-end">
     <img class="h-full" :src="srcAttr()" alt="Tmog Logo"/>
-    <div class="pl-0.5 pb-0.5 text-xs uppercase font-mono hidden md:block">Universal<br>Text&nbsp;Transformer</div>
+    <div class="pl-0.5 text-xs uppercase font-mono [word-spacing:-4px]">Universal <br>Text&nbsp;Transformer</div>
   </div>
 </template>

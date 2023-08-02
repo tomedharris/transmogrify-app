@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import type {Command} from '@/commands'
 import type {Emitter} from "mitt"
-import {computed, onMounted, onUnmounted, ref} from "vue"
+import {computed, nextTick, onMounted, onUnmounted, ref} from "vue"
 import {vOnClickOutside} from "@vueuse/components"
 import SearchInput from "@/components/CommandPalette/SearchInput.vue"
 import CommandList from "@/components/CommandPalette/CommandList.vue"
 import {useCodeStore} from "@/stores/code"
+import AppOverlay from "@/components/AppOverlay.vue";
+import TheTrigger from "@/components/CommandPalette/TheTrigger.vue";
 
 const props = withDefaults(defineProps<{
   commands: Command[]
@@ -17,10 +19,10 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits(['commandSelected', 'focus', 'blur'])
 
+const showCommandPallet = ref(false)
 const searchInput = ref<null | typeof SearchInput>(null)
 const commandList = ref<null | typeof CommandList>(null)
 const search = ref('')
-const showCommands = ref(false)
 const codeStore = useCodeStore()
 
 const recentCommands = ref<Command[]>([])
@@ -42,16 +44,15 @@ onUnmounted(() => window.removeEventListener('keydown', keydownHandler))
 
 function keydownHandler(e: KeyboardEvent) {
   if (e.key == 'k' && e.metaKey) {
-    if (showCommands.value) {
-      searchInput.value?.blur()
+    if (showCommandPallet.value) {
       blur()
       return
     }
 
-    searchInput.value?.focus()
+    open()
   }
 
-  if (showCommands.value) {
+  if (showCommandPallet.value) {
     if (e.key == 'Tab') {
       blur()
     }
@@ -63,7 +64,7 @@ function keydownHandler(e: KeyboardEvent) {
 }
 
 function onClickOutside() {
-  if (showCommands.value) {
+  if (showCommandPallet.value) {
     blur()
   }
 }
@@ -89,9 +90,14 @@ function blur() {
   if (commandList.value !== null) {
     commandList.value.selectedCommandIndex = 0
   }
-  showCommands.value = false
+  showCommandPallet.value = false
   emit('blur')
   props.commandPaletteBus.emit('blur')
+}
+
+function open() {
+  showCommandPallet.value = true
+  nextTick(() => searchInput.value?.focus())
 }
 
 function onEnterKey() {
@@ -104,12 +110,32 @@ function onEnterKey() {
   <div
       v-on-click-outside="onClickOutside"
       @keydown.enter.stop.prevent="onEnterKey"
-      class="text-sm md:text-base"
   >
-    <SearchInput ref="searchInput" v-model="search" @focus="showCommands = true"/>
-    <div class="relative">
-      <CommandList ref="commandList" :commands="filteredCommands" :show="showCommands" class="absolute"
-                   @commandSelected="onCommandSelected"/>
-    </div>
+    <TheTrigger @click="open()"/>
+    <AppOverlay :show="showCommandPallet" @close="blur">
+      <template #header>
+        <div class="w-full grid grid-cols-12 lg:gap-2">
+          <SearchInput ref="searchInput" v-model="search" class="
+              col-span-11
+              col-start-1
+              lg:col-span-6
+              lg:col-start-4
+          "/>
+        </div>
+      </template>
+      <div class="grid grid-cols-12 lg:gap-2">
+        <CommandList
+            class="
+              col-span-12
+              col-start-1
+              lg:col-span-6
+              lg:col-start-4
+            "
+            ref="commandList"
+            :commands="filteredCommands"
+            @commandSelected="onCommandSelected"
+        />
+      </div>
+    </AppOverlay>
   </div>
 </template>

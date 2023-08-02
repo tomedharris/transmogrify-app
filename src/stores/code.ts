@@ -8,9 +8,9 @@ export const useCodeStore = defineStore('code', () => {
     const code = ref('')
     const {undo, redo} = useRefHistory(code)
 
-    function applyCommand(c: Command) {
+    function applyCommand(command: Command) {
         try {
-            code.value = c.process(code.value)
+            code.value = command.process(code.value)
         } catch (err) {
             // console.error(err)
         }

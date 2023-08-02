@@ -36,17 +36,6 @@ function onInput(e: Event) {
   emit('update:modelValue', (e.target as HTMLInputElement).value)
 }
 
-function formatPlaceholder(): string {
-  if (currentDevice.isMac()) {
-    return "[⌘K] Search"
-  }
-
-  if (currentDevice.isMobile()) {
-    return "Search"
-  }
-
-  return "[C-K] Search"
-}
 </script>
 
 <template>
@@ -58,11 +47,11 @@ function formatPlaceholder(): string {
           // 'dark:border-tmog-dark-accent': isFocussed,
           // 'dark:border-tmog-dark-accent/40': !isFocussed,
         }"
-      :placeholder="formatPlaceholder()"
       :value="modelValue"
       class="
           border
-          block w-full p-2 text-center
+          block p-1
+          lg:p-2
           outline-none
           text-tmog-light-text
           dark:text-tmog-dark-text

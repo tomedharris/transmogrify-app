@@ -7,6 +7,7 @@ import {fmtJson, minifyJson} from "@/commands/json"
 import {fmtXml, minifyXml} from "@/commands/xml"
 
 export interface Command {
+    id: string,
     name: string,
     description?: string,
     tags?: string[]
@@ -32,3 +33,15 @@ export const commands: Command[] = [
     fmtXml,
     minifyXml,
 ]
+
+const commandDict: {[id: string]: Command} = commands.reduce((carry: any, c: Command) => {
+    carry[c.id] = c;
+    return carry;
+}, {});
+
+export const getCommandById = (id: string): Command => {
+    if (!(id in commandDict)) {
+        throw 'No command with id ' + id;
+    }
+    return commandDict[id] as Command
+}
