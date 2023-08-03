@@ -4,7 +4,8 @@ import TmogLogo from "@/components/TmogLogo.vue"
 import CommandPalette from "@/components/CommandPalette/CommandPalette.vue"
 import HomeView from '@/views/HomeView.vue'
 import {ref} from "vue";
-import {Command, commands} from "@/commands"
+import type {Command} from "@/commands"
+import {commands} from "@/commands"
 import mitt from "mitt";
 import {useCodeStore} from "@/stores/code";
 const commandPaletteBus = mitt()

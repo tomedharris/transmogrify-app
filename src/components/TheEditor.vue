@@ -3,7 +3,6 @@ import {highlight, languages} from 'prismjs'
 import {useCodeStore} from "@/stores/code"
 import {storeToRefs} from "pinia"
 import {ref} from "vue"
-import {Emitter} from "mitt";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 interface Props {
