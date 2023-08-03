@@ -4,14 +4,14 @@ import formatXml from 'xml-formatter'
 export const fmtXml = <Command>{
     id: 'format-xml',
     name: 'Format XML',
-    process: (str: string) => formatXml(str, {collapseContent: true, indentation: '  '}),
+    process: async (str: string) => formatXml(str, {collapseContent: true, indentation: '  '}),
     tags: ['beautify']
 }
 
 export const minifyXml = <Command>{
     id: 'minify-xml',
     name: 'Minify XML',
-    process: (str: string) => str
+    process: async (str: string) => str
         .replace(/<!--[\s\S]*?-->/g, '')
         .trim()
         .replace(/>\s+</g, '><'),

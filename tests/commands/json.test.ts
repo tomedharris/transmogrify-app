@@ -10,10 +10,10 @@ const formattedJson = `{
 
 const minifiedJson = '{"A":{"B":["C"]}}'
 
-test('it formats json', () => {
-    expect(fmtJson.process(minifiedJson)).toBe(formattedJson)
+test('it formats json', async () => {
+    expect(await fmtJson.process(minifiedJson)).toBe(formattedJson)
 })
 
-test('it minifies json', () => {
-    expect(minifyJson.process(formattedJson)).toBe(minifiedJson)
+test('it minifies json', async () => {
+    expect(await minifyJson.process(formattedJson)).toBe(minifiedJson)
 })

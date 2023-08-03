@@ -10,7 +10,7 @@ export const useCodeStore = defineStore('code', () => {
 
     function applyCommand(command: Command) {
         try {
-            code.value = command.process(code.value)
+            command.process(code.value).then((update: string) => code.value = update)
         } catch (err) {
             // console.error(err)
         }

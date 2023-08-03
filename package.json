@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "ndev": "netlify dev",
     "build": "vitest run && run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
