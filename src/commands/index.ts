@@ -12,7 +12,7 @@ export interface Command {
     description?: string,
     tags?: string[]
 
-    process(str: string): string
+    process(str: string): Promise<string>
 }
 
 export const commands: Command[] = [

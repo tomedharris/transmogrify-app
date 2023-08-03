@@ -12,13 +12,14 @@ import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript.js'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faMagnifyingGlass, faTimes, faStar as faStar} from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faTimes, faStar as faStar, faSpinner} from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
 library.add(faMagnifyingGlass)
 library.add(faTimes)
 library.add(faStar)
 library.add(farStar)
+library.add(faSpinner)
 
 const app = createApp(App)
 

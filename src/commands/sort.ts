@@ -4,7 +4,7 @@ export const sort = <Command>{
     id: 'sort',
     name: 'Sort',
     description: 'Sort lines alphabetically',
-    process: (str: string) => str.split('\n').sort().join('\n'),
+    process: async (str: string) => str.split('\n').sort().join('\n'),
     tags: []
 }
 
@@ -12,7 +12,7 @@ export const shuffle = <Command>{
     id: 'shuffle',
     name: 'Shuffle',
     description: 'Randomize lines',
-    process: (str: string) => {
+    process: async (str: string) => {
         const lines = str.split('\n')
 
         for (let i = lines.length - 1; i > 0; i--) {
