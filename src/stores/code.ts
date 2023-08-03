@@ -8,12 +8,8 @@ export const useCodeStore = defineStore('code', () => {
     const code = ref('')
     const {undo, redo} = useRefHistory(code)
 
-    function applyCommand(command: Command) {
-        try {
-            command.process(code.value).then((update: any) => code.value = update)
-        } catch (err) {
-            // console.error(err)
-        }
+    function applyCommand(command: Command): Promise<string> {
+        return command.process(code.value).then((update: any) => code.value = update)
     }
 
     function hash(): string {

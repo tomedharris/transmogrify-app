@@ -23,7 +23,6 @@ const showCommandPallet = ref(false)
 const searchInput = ref<null | typeof SearchInput>(null)
 const commandList = ref<null | typeof CommandList>(null)
 const search = ref('')
-const codeStore = useCodeStore()
 
 const recentCommands = ref<Command[]>([])
 
@@ -82,7 +81,7 @@ function onCommandSelected(c: Command) {
   recentCommands.value.unshift(c)
 
   blur()
-  codeStore.applyCommand(c)
+  emit('commandSelected', c)
 }
 
 function blur() {

@@ -3,13 +3,17 @@ import {highlight, languages} from 'prismjs'
 import {useCodeStore} from "@/stores/code"
 import {storeToRefs} from "pinia"
 import {ref} from "vue"
+import {Emitter} from "mitt";
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 interface Props {
   placeholder?: string
+  processing: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  placeholder: 'Enter text here...'
+  placeholder: 'Enter text here...',
+  processing: false,
 })
 
 const editor = ref<null | { $refs: { textarea: HTMLInputElement } }>(null)
@@ -66,6 +70,7 @@ function onRedo() {
         font-mono
         h-full overflow-auto py-2.5
         border
+        relative
       "
   >
     <PrismEditor
@@ -83,6 +88,9 @@ function onRedo() {
         @keydown.meta.y.exact.stop.prevent="onRedo"
         @keydown.ctrl.y.exact.stop.prevent="onRedo"
     />
+    <div v-if="processing" class="absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center">
+        <font-awesome-icon :icon="['fas', 'spinner']" class="text-xl" :pulse="true" />
+    </div>
   </div>
 </template>
 
