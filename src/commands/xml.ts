@@ -1,10 +1,20 @@
 import type {Command} from "./index"
-import formatXml from 'xml-formatter'
+import axios from "axios"
+import type {AxiosResponse} from "axios"
+import type {ResponsePayload} from "@/lib/functions/response";
+import {getResponseContent} from "@/lib/functions/response";
+import type {RequestPayload} from "@/lib/functions/request";
+import {makeRequestPayload} from "@/lib/functions/request";
 
 export const fmtXml = <Command>{
     id: 'format-xml',
     name: 'Format XML',
-    process: async (str: string) => formatXml(str, {collapseContent: true, indentation: '  '}),
+    process: async (str: string) => {
+        const result: AxiosResponse = await axios
+            .post<ResponsePayload, AxiosResponse<ResponsePayload>, RequestPayload>('/.netlify/functions/xmlfmt', makeRequestPayload(str))
+
+        return getResponseContent(result.data)
+    },
     tags: ['beautify']
 }
 
