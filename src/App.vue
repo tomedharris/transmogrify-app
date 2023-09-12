@@ -2,20 +2,38 @@
 import GithubLogo from "@/components/GithubLogo.vue"
 import TmogLogo from "@/components/TmogLogo.vue"
 import CommandPalette from "@/components/CommandPalette/CommandPalette.vue"
-import HomeView from '@/views/HomeView.vue'
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import type {Command} from "@/commands"
 import {commands} from "@/commands"
-import mitt from "mitt";
 import {useCodeStore} from "@/stores/code";
-const commandPaletteBus = mitt()
+import CommandList from "@/CommandList";
+import TheEditor from "@/components/TheEditor.vue";
+import type {Cursor} from "@/lib/cursor";
 
+const editor = ref<null | typeof TheEditor>(null)
 const codeStore = useCodeStore()
 const applyingCommand = ref(false)
+const commandList = reactive<CommandList>(new CommandList(commands)) as CommandList
+
+function onCommandPaletteBlur() {
+  editor.value?.focus()
+}
 
 function onCommandSelected(c: Command) {
   applyingCommand.value = true
-  codeStore.applyCommand(c).then(() => applyingCommand.value = false)
+  if (editor.value !== null) {
+    codeStore.applyCommand(c, editor.value?.getCursor())
+        .then((result: {result: string, cursor: Cursor}) => {
+          applyingCommand.value = false
+          editor.value?.setCursor(result.cursor)
+        })
+        .catch(() => {
+          // TODO Alerts
+          applyingCommand.value = false
+        })
+  } else {
+    applyingCommand.value = false
+  }
 }
 </script>
 
@@ -28,7 +46,7 @@ function onCommandSelected(c: Command) {
         </a>
       </div>
       <div class="">
-        <CommandPalette class="max-w-sm mx-auto" :command-palette-bus="commandPaletteBus" :commands="commands" @command-selected="onCommandSelected"/>
+        <CommandPalette class="max-w-sm mx-auto" @blur="onCommandPaletteBlur" :commands="commandList" @command-selected="onCommandSelected"/>
       </div>
       <nav class="ml-auto hidden sm:block">
         <a href="https://github.com/tomedharris/transmogrify-app">
@@ -38,6 +56,6 @@ function onCommandSelected(c: Command) {
     </div>
   </header>
   <main class="w-full max-w-screen-2xl mx-auto px-6 pt-6">
-    <HomeView :command-palette-bus="commandPaletteBus" :applying-command="applyingCommand"/>
+    <TheEditor ref="editor" class="" :processing="applyingCommand"/>
   </main>
 </template>

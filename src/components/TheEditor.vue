@@ -4,6 +4,7 @@ import {useCodeStore} from "@/stores/code"
 import {storeToRefs} from "pinia"
 import {ref} from "vue"
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import type {Cursor} from "@/lib/cursor";
 
 interface Props {
   placeholder?: string
@@ -33,7 +34,10 @@ function focus() {
   editor.value?.$refs.textarea.focus()
 }
 
-function focusWithCursorPosition(start: number, end?: number) {
+function setCursor(cursor: Cursor) {
+  const start: number = cursor.position
+  const end: number = cursor.position + cursor.selectionLength
+
   focus()
   editor.value?.$refs.textarea.setSelectionRange(start, end || start)
 }
@@ -42,10 +46,30 @@ function clearEditor() {
   codeStore.clear()
 }
 
+function getCursor(): Cursor {
+  const element = editor.value?.$refs.textarea
+
+  if (!element) {
+    return {
+      position: 0,
+      selectionLength: 0,
+    }
+  }
+
+  const start: number = element.selectionStart || 0
+  const end: number = element.selectionEnd || 0
+
+  return {
+    position: element.selectionStart || 0,
+    selectionLength: Math.abs(end - start),
+  }
+}
+
 defineExpose({
   focus,
-  focusWithCursorPosition,
   clearEditor,
+  getCursor,
+  setCursor,
 })
 
 function onUndo() {
@@ -88,7 +112,7 @@ function onRedo() {
         @keydown.ctrl.y.exact.stop.prevent="onRedo"
     />
     <div v-if="processing" class="absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center">
-        <font-awesome-icon :icon="['fas', 'spinner']" class="text-xl" :pulse="true" />
+      <font-awesome-icon :icon="['fas', 'spinner']" class="text-xl" :pulse="true"/>
     </div>
   </div>
 </template>
