@@ -26,6 +26,5 @@ import {currentDevice} from "@/device";
     <span class="hidden lg:block" v-if="currentDevice.isWindows()">
       [C-K]
     </span>
-
   </div>
 </template>

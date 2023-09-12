@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type {Command} from '@/commands'
-import type {Emitter} from "mitt"
 import {computed, nextTick, onMounted, onUnmounted, ref} from "vue"
 import {vOnClickOutside} from "@vueuse/components"
 import SearchInput from "@/components/CommandPalette/SearchInput.vue"
@@ -14,7 +13,6 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 const props = withDefaults(defineProps<{
   commands: CommandList
   disabled?: boolean
-  commandPaletteBus: Emitter<any>
 }>(), {
   disabled: false,
 })
@@ -73,7 +71,6 @@ function blur() {
   }
   showCommandPallet.value = false
   emit('blur')
-  props.commandPaletteBus.emit('blur')
 }
 
 function open() {
