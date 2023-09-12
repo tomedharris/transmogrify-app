@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {currentDevice} from "@/device"
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   show: boolean
 }>(), {
   show: false,
@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<{
           hidden: !show
       }"
       class="
+          tmog-overlay
           h-full top-0 right-0 bottom-0 left-0
           text-tmog-light-text dark:text-tmog-dark-text
           bg-white dark:bg-tmog-dark-primary
