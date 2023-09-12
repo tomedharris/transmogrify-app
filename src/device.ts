@@ -10,7 +10,7 @@ export class Device {
     }
 
     isMac(): boolean {
-        return /Mac/i.test(this.userAgent)
+        return /Mac/i.test(this.userAgent) && !/iPhone/i.test(this.userAgent)
     }
 
     isWindows(): boolean {
