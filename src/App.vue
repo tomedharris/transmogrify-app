@@ -3,15 +3,17 @@ import GithubLogo from "@/components/GithubLogo.vue"
 import TmogLogo from "@/components/TmogLogo.vue"
 import CommandPalette from "@/components/CommandPalette/CommandPalette.vue"
 import HomeView from '@/views/HomeView.vue'
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import type {Command} from "@/commands"
 import {commands} from "@/commands"
 import mitt from "mitt";
 import {useCodeStore} from "@/stores/code";
+import CommandList from "@/CommandList";
 const commandPaletteBus = mitt()
 
 const codeStore = useCodeStore()
 const applyingCommand = ref(false)
+const commandList = reactive<CommandList>(new CommandList(commands)) as CommandList
 
 function onCommandSelected(c: Command) {
   applyingCommand.value = true
@@ -28,7 +30,7 @@ function onCommandSelected(c: Command) {
         </a>
       </div>
       <div class="">
-        <CommandPalette class="max-w-sm mx-auto" :command-palette-bus="commandPaletteBus" :commands="commands" @command-selected="onCommandSelected"/>
+        <CommandPalette class="max-w-sm mx-auto" :command-palette-bus="commandPaletteBus" :commands="commandList" @command-selected="onCommandSelected"/>
       </div>
       <nav class="ml-auto hidden sm:block">
         <a href="https://github.com/tomedharris/transmogrify-app">

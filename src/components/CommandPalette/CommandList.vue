@@ -2,6 +2,8 @@
 import {currentDevice} from "@/device"
 import type {Command} from '@/commands'
 import {onMounted, onUnmounted, ref, watch} from "vue"
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {useSettingsStore} from "@/stores/settings";
 
 const props = defineProps<{ commands: Command[] }>()
 const selectedCommandIndex = ref(0)
@@ -40,13 +42,16 @@ function keydownHandler(e: KeyboardEvent) {
 }
 
 function selectCommand() {
-  return onSelectCommand(props.commands[selectedCommandIndex.value])
+  if (selectedCommandIndex.value in props.commands) {
+    return onSelectCommand(props.commands[selectedCommandIndex.value])
+  }
 }
 
 function onSelectCommand(c: Command) {
   emit('commandSelected', c)
 }
 
+const {toggleFavourite, isFavourite} = useSettingsStore()
 </script>
 
 <template>
@@ -55,13 +60,19 @@ function onSelectCommand(c: Command) {
         v-for="(c, i) in commands"
         :key="c.name"
         :class="{'text-white bg-tmog-light-secondary dark:bg-tmog-dark-secondary': selectedCommandIndex == i}"
-        class="p-2.5 flex flex-row justify-between items-center"
+        class="p-2.5 flex flex-row justify-between items-center cursor-pointer"
         @click="onSelectCommand(c)"
         @mouseover="selectedCommandIndex = i"
     >
       <span class="flex flex-col">
-        <span class="flex gap-1">
+        <span class="flex gap-1 items-center">
           <span v-text="c.name"/>
+          <span
+              class="hidden text-xs cursor-default"
+              :class="{'!inline': selectedCommandIndex == i}"
+          >
+            <font-awesome-icon @click.stop.prevent="toggleFavourite(c)" :icon="[isFavourite(c) ? 'fas' : 'far', 'star']"/>
+          </span>
         </span>
         <span
             class="text-xs"

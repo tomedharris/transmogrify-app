@@ -7,6 +7,7 @@ const sha256Hasher = new Hashes.SHA256
 const sha512Hasher = new Hashes.SHA512
 
 export const md5 = <Command>{
+    id: 'md5',
     name: 'MD5',
     process: async (str: string) => md5Hasher.hex(str),
     tags: ['hash']

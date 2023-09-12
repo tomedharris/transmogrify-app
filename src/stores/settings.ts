@@ -42,6 +42,15 @@ export const useSettingsStore = defineStore('settings', () => {
         return settings.favourites.indexOf(command.id) !== -1
     }
 
+    function toggleFavourite(command: Command) {
+        if (isFavourite(command)) {
+            removeFavourite(command)
+            return
+        }
+
+        addFavourite(command)
+    }
+
     function getFavourites(): Command[] {
         return settings.favourites.map(getCommandById)
     }
@@ -50,5 +59,5 @@ export const useSettingsStore = defineStore('settings', () => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(newSettings))
     })
 
-    return {settings, clearFavourites, addFavourite, removeFavourite, isFavourite, getFavourites}
+    return {settings, clearFavourites, addFavourite, removeFavourite, toggleFavourite, isFavourite, getFavourites}
 })
